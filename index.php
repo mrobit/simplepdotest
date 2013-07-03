@@ -17,8 +17,8 @@ $database = new Database;
 /**
  * Inserting values into the database.
  */
-$values = array('name' => 'Inserted Post', 'body' => 'Inserted Body');
-$status = $database->insert('posts', $values);
+// $values = array('name' => 'Inserted Post', 'body' => 'Inserted Body');
+// $status = $database->insert('posts', $values);
 // var_dump($status);
 
 /**
@@ -27,4 +27,10 @@ $status = $database->insert('posts', $values);
 
 // $database->delete('posts', 6);
 
-// print_r($delete);
+// print_r($delete);]
+
+/**
+ * Updating a row in the database.
+ */
+
+$database->update('posts', array('name' => 'new name', 'body' => 'new body'), 12);

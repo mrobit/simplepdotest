@@ -77,6 +77,37 @@ class Database {
     }
 
     /**
+     * Update the specified row in the database.
+     * @param  string $table
+     * @param  array  $values
+     * @param  int    $id
+     * @return bool
+     */
+    public function update($table, $values = array(), $id)
+    {
+        try {
+
+            $set = '';
+
+            foreach($values as $key => $value) {
+                $v = is_string($value) ? "\"$value\"" : $value;
+                $set .= " {$key}={$v},";
+            }
+
+            $set = substr($set, 0, -1);
+
+            $statement = $this->db->prepare("UPDATE {$table} SET{$set} WHERE id = :id");
+            $statement->execute(array(
+                'id' => $id
+            ));
+
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    /**
      * Delete a row from the table.
      * @param  string $table
      * @param  int $id
