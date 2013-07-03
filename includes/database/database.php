@@ -28,7 +28,7 @@ class Database {
      */
     public function get($table)
     {
-        $statement = $this->db->prepare("SELECT * FROM $table");
+        $statement = $this->db->prepare("SELECT * FROM {$table}");
         $statement->execute();
 
         return $statement->fetchAll();
@@ -41,15 +41,19 @@ class Database {
      */
     public function find($table, $id)
     {
+        try {
+            $id = 1;
+            $statement = $this->db->prepare("SELECT * FROM {$table} where `id` = :id");
 
-        $id = 1;
-        $statement = $this->db->prepare("SELECT * FROM {$table} where `id` = :id");
+            $statement->execute(array(
+                'id' => $id,
+            ));
 
-        $statement->execute(array(
-            'id' => $id,
-        ));
+            return $statement->fetchAll();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
 
-        return $statement->fetchAll();
     }
 
     /**
@@ -67,7 +71,7 @@ class Database {
             $statement = $this->db->prepare("INSERT INTO {$table}( {$columns} ) VALUES(:name, :body)");
             $success = $statement->execute($values);
         } catch (PDOException $e) {
-            echo $e->errorMessage();
+            echo $e->getMessage();
         }
 
     }
@@ -80,9 +84,15 @@ class Database {
      */
     public function delete($table, $id)
     {
-        $statement = $this->db->prepare('DELETE FROM {$table} WHERE id = `:id`;');
-        $statement->bindParam(':id', $id, PDO::PARAM_INT);
-        return $statement->execute();
+        try {
+            $statement = $this->db->prepare('DELETE FROM {$table} WHERE id = `:id`;');
+            $statement->bindParam(':id', $id, PDO::PARAM_INT);
+            return $statement->execute();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+
     }
 
 }
