@@ -48,7 +48,6 @@ class Database {
     public function find($table, $id)
     {
         try {
-            $id = 1;
             $statement = $this->db->prepare("SELECT * FROM {$table} where `id` = :id");
 
             $statement->execute(array(
@@ -92,7 +91,6 @@ class Database {
     public function update($table, $values = array(), $id)
     {
         try {
-
             $set = '';
 
             foreach($values as $key => $value) {
@@ -107,7 +105,6 @@ class Database {
                 'id' => $id
             ));
 
-            return true;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
