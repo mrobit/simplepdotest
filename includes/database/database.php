@@ -119,9 +119,10 @@ class Database {
     public function delete($table, $id)
     {
         try {
-            $statement = $this->db->prepare('DELETE FROM {$table} WHERE id = `:id`;');
+            $statement = $this->db->prepare("DELETE FROM {$table} WHERE id = :id;");
             $statement->bindParam(':id', $id, PDO::PARAM_INT);
-            return $statement->execute();
+            $statement->execute();
+            return true;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

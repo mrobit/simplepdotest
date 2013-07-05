@@ -750,8 +750,15 @@ button.btn,input[type=submit].btn,button.btn.btn-small,input[type=submit].btn.bt
 
 /* My Styles */
 
+/* Home Page */
+
 .posts {width: 100%;}
 .posts thead {font-weight: 700;font-size: 125%;}
 .posts thead td {padding: 10px 0;}
 .posts tbody tr.even {background: #efefef;}
 .posts tbody td {padding: 5px;}
+
+/* Delete page */
+
+.confirm {text-align: center; font-size: 150%; line-height: 1.4}
+.warning {padding: 10px 0;margin-top: 15px;}
