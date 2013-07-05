@@ -28,10 +28,16 @@ class Database {
      */
     public function get($table)
     {
-        $statement = $this->db->prepare("SELECT * FROM {$table}");
-        $statement->execute();
+        try {
+            $statement = $this->db->prepare("SELECT * FROM {$table}");
+            $statement->execute();
 
-        return $statement->fetchAll();
+            return $statement->fetchAll();
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
     }
 
     /**
