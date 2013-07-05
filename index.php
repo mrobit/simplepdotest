@@ -3,31 +3,54 @@
 require 'includes/HtmlBuilder.php';
 require 'includes/database/database.php';
 
+include 'header.php';
 ?>
 
 <?php
 
-$database = new Database;
+$db = new Database;
 
-/**
- * Finding a row in the database.
- */
-// $posts = $database->find('posts', 1);
+$posts = $db->get('posts');
 
-/**
- * Inserting values into the database.
- */
-// $values = array('name' => 'Inserted Post', 'body' => 'Inserted Body');
-// $status = $database->insert('posts', $values);
+?>
 
-/**
- * Deleting a row from the database.
- */
+<?php if (count($posts)): ?>
 
-// $database->delete('posts', 6);
+    <table class="posts">
+        <thead>
+            <tr>
+                <td>
+                    Post Title
+                </td>
+                <td>
+                    Post Body
+                </td>
+                <td>
+                    Actions
+                </td>
+            </tr>
+        </thead>
 
-/**
- * Updating a row in the database.
- */
+        <tbody>
+            <?php $count = 1; ?>
 
-// $database->update('posts', array('name' => 'new name', 'body' => 'new body'), 12);
+            <?php foreach($posts as $post): ?>
+                <?php $stripe = $count % 2 == 1 ? 'odd' : 'even'; ?>
+                <tr class="<?= $stripe; ?>">
+                    <td><?= $post['name']; ?></td>
+                    <td><?= $post['body']; ?></td>
+                    <td>
+                        <a href="edit.php?id=<?= $post['id']; ?>" class="edit">Edit</a>
+                        <a href="delete.php?id=<?= $post['id']; ?>" class="edit">Delete</a>
+                    </td>
+                </tr>
+                <?php $count++; ?>
+            <?php endforeach; ?>
+
+        </tbody>
+
+    </table>
+
+<?php else : ?>
+    There are no posts to display.
+<?php endif; ?>
