@@ -50,9 +50,10 @@ class Database {
         try {
             $statement = $this->db->prepare("SELECT * FROM {$table} where `id` = :id");
 
-            $statement->execute(array(
-                'id' => $id,
-            ));
+            $statement
+                ->bindValue('id', $id, PDO::PARAM_INT);
+
+            $statement->execute();
 
             return $statement->fetchAll();
         } catch (PDOException $e) {
@@ -74,7 +75,8 @@ class Database {
             $columns = implode(',', array_keys($values));
 
             $statement = $this->db->prepare("INSERT INTO {$table}( {$columns} ) VALUES(:name, :body)");
-            $success = $statement->execute($values);
+            $statement
+                ->execute($values);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -101,9 +103,12 @@ class Database {
             $set = substr($set, 0, -1);
 
             $statement = $this->db->prepare("UPDATE {$table} SET{$set} WHERE id = :id");
-            $statement->execute(array(
-                'id' => $id
-            ));
+            $statement
+                ->bindValue('id', $id, PDO::PARAM_INT);
+
+            $statement
+                ->execute();
+
 
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -120,8 +125,12 @@ class Database {
     {
         try {
             $statement = $this->db->prepare("DELETE FROM {$table} WHERE id = :id;");
-            $statement->bindParam(':id', $id, PDO::PARAM_INT);
-            $statement->execute();
+            $statement
+                ->bindValue('id', $id, PDO::PARAM_INT);
+
+            $statement
+                ->execute();
+
             return true;
         } catch (PDOException $e) {
             echo $e->getMessage();
